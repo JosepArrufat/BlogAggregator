@@ -1,4 +1,18 @@
-import { CommandsRegistry, handlerAgg, handlerDelete, handlerFeed, handlerFeeds, handlerLogin, handlerRegsiter, handlerUsers, runCommand } from "./commands.js";
+import { 
+  CommandsRegistry, 
+  handlerAgg, 
+  handlerBrowse, 
+  handlerDelete, 
+  handlerFeed, 
+  handlerFeeds, 
+  handlerFollow, 
+  handlerFollowing, 
+  handlerLogin, 
+  handlerRegsiter, 
+  handlerUnfollow, 
+  handlerUsers, 
+  runCommand 
+} from "./commands.js";
 
 async function main() {
   const CommandsRegistry: CommandsRegistry = {
@@ -9,6 +23,10 @@ async function main() {
     agg: handlerAgg,
     addfeed: handlerFeed,
     feeds: handlerFeeds,
+    follow: handlerFollow,
+    following: handlerFollowing,
+    unfollow: handlerUnfollow,
+    browse: handlerBrowse,
   }
   const commands = process.argv.slice(2);
   const [cmdName, ...args] = commands;

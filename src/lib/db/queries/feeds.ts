@@ -1,6 +1,6 @@
 import { db } from "../index";
 import {feeds, User, users} from "../../../schema";
-import { eq, gt, and, or } from 'drizzle-orm';
+import { eq, gt, and, or, sql } from 'drizzle-orm';
 import { stringify } from "querystring";
 import { readConfig } from "src/config";
 import { getUser } from "./users";
@@ -34,4 +34,18 @@ export async function getFeed(url: string){
     }catch(e){
         return undefined;
     }
+};
+
+export async function markFeedFetched(feedID: string){
+    await db.update(feeds)
+        .set({last_fetched_at: new Date, updatedAt: new Date})
+        .where(eq(feeds.id, feedID));
+};
+
+export async function getNextFeedToFetch(){
+    const [feed] = await db.select()
+        .from(feeds)
+        .orderBy(sql`${feeds.last_fetched_at} nulls first`)
+        .limit(1);
+    return feed;
 }

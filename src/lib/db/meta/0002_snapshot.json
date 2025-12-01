@@ -1,9 +1,77 @@
 {
-  "id": "a15c1159-add8-481c-83ec-4df13978926d",
-  "prevId": "d32eef23-28c7-4f97-89d0-186c53476e97",
+  "id": "10313e95-e027-47be-bcae-ac98a5ee56c6",
+  "prevId": "a15c1159-add8-481c-83ec-4df13978926d",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.feed_follows": {
+      "name": "feed_follows",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "feed_id": {
+          "name": "feed_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "feed_follows_user_id_users_id_fk": {
+          "name": "feed_follows_user_id_users_id_fk",
+          "tableFrom": "feed_follows",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "feed_follows_feed_id_feeds_id_fk": {
+          "name": "feed_follows_feed_id_feeds_id_fk",
+          "tableFrom": "feed_follows",
+          "tableTo": "feeds",
+          "columnsFrom": [
+            "feed_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "unique_user_feed": {
+          "name": "unique_user_feed",
+          "nullsNotDistinct": false,
+          "columns": [
+            "user_id",
+            "feed_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.feeds": {
       "name": "feeds",
       "schema": "",
